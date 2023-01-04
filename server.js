@@ -3,11 +3,11 @@ const app = express();
 const router = require("./routes/routes.js");
 app.use(router);
 
-function serverconnection() {
+function serverConnection() {
   const server = app.listen(3000, () => {
     let port = server.address().port;
     console.log("server connection established in port:", port);
   });
 }
 
-module.exports = serverconnection;
+module.exports = serverConnection;

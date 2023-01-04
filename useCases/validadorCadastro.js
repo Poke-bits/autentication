@@ -1,44 +1,31 @@
 const User = require("../db/models/User.js");
 let objectResponse = {};
 let statusCode, message;
-module.exports = async function validateDataCadastro(dadosCadastro, res) {
-  if (!dadosCadastro.name) {
-    objectResponse = res.status(422);
-    objectResponse.statusMessage = "nome não encontrado na requisição";
-  }
-
-  if (!dadosCadastro.email) {
-    objectResponse = res.status(422);
-    objectResponse.statusMessage = "email não encontrado na requisição";
-  }
-
-  if (!dadosCadastro.password) {
-    objectResponse = res.status(422);
-    objectResponse.statusMessage = "senha não encontrado na requisição";
-  }
-
-  if (!dadosCadastro.confirmPassword) {
-    objectResponse = res.status(422);
+module.exports = async function validateDataCadastro(registerData, res) {
+  if (
+    !registerData.name ||
+    !registerData.password ||
+    !registerData.confirmPassword
+  ) {
+    objectResponse = res.status(404);
     objectResponse.statusMessage =
-      "confirmação de senha não encontrado na requisição";
-  }
-
-  if (dadosCadastro.password !== dadosCadastro.confirmPassword) {
+      "check the body of the request as it needs to have name, email, password and confirm password";
+  } else if (registerData.password !== registerData.confirmPassword) {
     objectResponse = res.status(480);
-    objectResponse.statusMessage = "senha diferente da confirmação de senha";
-  }
-
-  const validateUserExists = await User.findOne({ email: dadosCadastro.email });
-  if (validateUserExists) {
-    objectResponse = res.status(480);
-    objectResponse.statusMessage = "email já cadastrado";
+    objectResponse.statusMessage = "password different from password confirm";
   } else {
-    objectResponse = res.status(200);
-    objectResponse.statusMessage = "tudo certo";
+    const validateUserExists = await User.findOne({
+      email: registerData.email,
+    });
+    if (validateUserExists) {
+      objectResponse = res.status(480);
+      objectResponse.statusMessage = "E-mail already registered";
+    } else {
+      objectResponse = res.status(200);
+      objectResponse.statusMessage = "all Right";
+    }
   }
   statusCode = objectResponse.statusCode;
   message = objectResponse.statusMessage;
-
-  console.log(objectResponse.statusMessage);
   return { statusCode, message };
 };
