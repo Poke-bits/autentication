@@ -8,7 +8,7 @@ function DbConnection() {
   mongoose.set("strictQuery", true);
   mongoose
     .connect(
-      `mongodb+srv://${DbLogin}:${DbPassword}@cluster0.rdvsdig.mongodb.net/?retryWrites=true&w=majority`
+      `mongodb+srv://${DbLogin}:${DbPassword}@cluster0.jjoj7el.mongodb.net/?retryWrites=true&w=majority`
     )
     .then(() => {
       serverconnection();

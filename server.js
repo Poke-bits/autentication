@@ -1,8 +1,7 @@
 const express = require("express");
 const app = express();
 const router = require("./routes/routes.js");
-const bodyParser = require("body-parser");
-app.use(router.use(express.json()));
+app.use(router);
 
 function serverconnection() {
   const server = app.listen(3000, () => {

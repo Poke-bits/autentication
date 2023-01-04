@@ -30,10 +30,10 @@ module.exports = async function validateDataCadastro(dadosCadastro, res) {
 
   const validateUserExists = await User.findOne({ email: dadosCadastro.email });
   if (validateUserExists) {
-    objectResponse = res.status(480).json({ message: "email já cadastrado" });
+    objectResponse = res.status(480);
     objectResponse.statusMessage = "email já cadastrado";
   } else {
-    objectResponse = res.status(200).json({ message: "sucesso" });
+    objectResponse = res.status(200);
     objectResponse.statusMessage = "tudo certo";
   }
   statusCode = objectResponse.statusCode;
